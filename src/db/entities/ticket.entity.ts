@@ -34,6 +34,9 @@ export class Ticket {
   @Column({ nullable: true })
   url: string;
 
+  @Column({ nullable: true })
+  date: string;
+
   @OneToMany(() => AccountTicket, (accountTicket) => accountTicket.ticket)
   accountTickets: AccountTicket[];
 }

@@ -16,10 +16,10 @@ export class AccountSticker {
   id: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: string;
+  updatedAt: Date;
 
   @Column({ type: 'int', default: 1 })
   quantity: number;

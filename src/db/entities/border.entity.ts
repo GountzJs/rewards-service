@@ -14,10 +14,10 @@ export class Border {
   id: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: string;
+  updatedAt: Date;
 
   @Column()
   cover: string;
@@ -26,7 +26,7 @@ export class Border {
   name: string;
 
   @Column({ name: 'is_special', default: false })
-  isSpecial: string;
+  isSpecial: boolean;
 
   @OneToMany(() => AccountBorder, (accountBorder) => accountBorder.border)
   accountBorders: AccountBorder[];
