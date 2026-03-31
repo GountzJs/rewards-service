@@ -22,7 +22,7 @@ export class Country {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   cover: string;
 
   @OneToMany(() => Sticker, (sticker) => sticker.country)

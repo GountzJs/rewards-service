@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { AccountTicket } from './account-ticket.entity';
 
-@Entity({ name: 'team' })
+@Entity({ name: 'ticket' })
 export class Ticket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -19,19 +19,19 @@ export class Ticket {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: string;
 
-  @Column()
+  @Column({ nullable: true })
   cover: string;
 
   @Column()
   name: string;
 
-  @Column()
+  @Column({ name: 'hour_mx', nullable: true })
   hourMx: string;
 
-  @Column()
+  @Column({ name: 'hour_arg', nullable: true })
   hourArg: string;
 
-  @Column()
+  @Column({ nullable: true })
   url: string;
 
   @OneToMany(() => AccountTicket, (accountTicket) => accountTicket.ticket)
