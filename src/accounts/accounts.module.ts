@@ -15,7 +15,7 @@ import { PlatformRepositoryService } from './platform-repository.service';
   providers: [
     {
       provide: 'ACCOUNT_REPOSITORY',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
       useFactory: (dataSource: DataSource) => dataSource.getRepository(Account),
       inject: ['DATA_SOURCE'],
     },

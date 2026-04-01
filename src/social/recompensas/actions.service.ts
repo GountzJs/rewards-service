@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { TwitchService } from '@/twitch/twitch.service';
 import { Injectable } from '@nestjs/common';
 import { SizePack } from '../models/enums/size-pack.enum';
@@ -22,7 +19,6 @@ export class ActionsService {
   private async getORCreateAccount(username: string) {
     const twitchUser = await this.twitchService.getByUsername(username);
     const accountID = await this.accountService.getOrCreateAccount(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       twitchUser.data.id,
     );
     return accountID;

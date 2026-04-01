@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { AccountTicket } from '@/db/entities/account-ticket.entity';
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';

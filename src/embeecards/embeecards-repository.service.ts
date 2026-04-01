@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+
 import { AccountEmbeecard } from '@/db/entities/account-embeecard.entity';
+import { Account } from '@/db/entities/account.entity';
 import { EmbeecardCategory } from '@/db/entities/embeecard_category.entity';
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
@@ -15,11 +16,31 @@ export class EmbeecardsRepositoryService {
     private readonly accountEmbeecardRepository: Repository<AccountEmbeecard>,
     @Inject('EMBEECARD_CATEGORY_REPOSITORY')
     private readonly embeecardCategoryRepository: Repository<EmbeecardCategory>,
+    @Inject('ACCOUNT_REPOSITORY')
+    private readonly accountRepository: Repository<Account>,
   ) {}
 
   async getCategorySpecial(): Promise<EmbeecardCategory | null> {
     return this.embeecardCategoryRepository.findOne({
       where: { name: 'SPECIAL' },
+    });
+  }
+
+  async findAccountByRef(ref: string): Promise<Account | null> {
+    return this.accountRepository.findOne({
+      where: { ref },
+    });
+  }
+
+  async findLastCardsByQuantity(
+    accountId: string,
+    quantity: number,
+  ): Promise<AccountEmbeecard[]> {
+    return this.accountEmbeecardRepository.find({
+      where: { accountId },
+      relations: ['embeecard', 'embeecard.category'],
+      order: { updatedAt: 'DESC' },
+      take: quantity,
     });
   }
 

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Account } from '@/db/entities/account.entity';
 import { Platform } from '@/db/entities/platform.entity';
 import { Inject, Injectable } from '@nestjs/common';

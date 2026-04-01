@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { EmbeecardsQueryDTO } from './dtos/embeecards-query.dto';
 import { EmbeecardsRepositoryService } from './embeecards-repository.service';
+import { GetEmbeecardResponse } from './models/interfaces/get-embeecard-response.interface';
 
 @Injectable()
 export class EmbeecardsService {
@@ -19,7 +19,6 @@ export class EmbeecardsService {
       throw new Error('Category not found');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.embeecardsRepository.getById(accountId, category.id, {
       page,
       limit: 8,
@@ -27,5 +26,22 @@ export class EmbeecardsService {
       sort,
       name,
     });
+  }
+
+  async findLastCardsByQuantity(
+    quantity: number,
+    ref: string,
+  ): Promise<GetEmbeecardResponse[]> {
+    const account = await this.embeecardsRepository.findAccountByRef(ref);
+    if (!account) {
+      throw new Error('Account not found');
+    }
+
+    const cards = await this.embeecardsRepository.findLastCardsByQuantity(
+      account.id,
+      quantity,
+    );
+
+    return cards as unknown as GetEmbeecardResponse[];
   }
 }

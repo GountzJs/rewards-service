@@ -9,8 +9,12 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
+import { getLatestCardsAdapter } from './adapters/get-latest-cards.adapter';
 import { EmbeecardsQueryDTO } from './dtos/embeecards-query.dto';
 import { EmbeecardsService } from './embeecards.service';
+import { FilterLastCardsDTO } from './models/dtos/filter-last-cards.dto';
+import { GetLastCardsDTO } from './models/dtos/get-last-cards.dto';
+import { quantityByPack } from './utils/quantity-by-pack';
 
 @Controller('/v1/embeecards')
 export class EmbeecardsController {
@@ -35,6 +39,27 @@ export class EmbeecardsController {
 
       throw new HttpException(
         { error: err.message },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('/:ref/last')
+  @HttpCode(HttpStatus.OK)
+  async lastCards(
+    @Param() { ref }: GetLastCardsDTO,
+    @Query() { sizePack }: FilterLastCardsDTO,
+  ) {
+    const quantity = quantityByPack(sizePack);
+    try {
+      const cards = await this.embeecardsService.findLastCardsByQuantity(
+        quantity,
+        ref,
+      );
+      return getLatestCardsAdapter(cards);
+    } catch {
+      throw new HttpException(
+        'Error genérico del sistema',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
