@@ -1,7 +1,7 @@
 export class TicketEntity {
   cover: string;
   name: string;
-  hourMx: string;
-  hourArg: string;
+  hourMx: string | null;
+  hourArg: string | null;
   date: string;
 }
