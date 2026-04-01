@@ -27,7 +27,9 @@ export class AccountBorder {
   @Column({ name: 'account_id' })
   accountId: string;
 
-  @ManyToOne(() => Account, (account) => account.accountBorders)
+  @ManyToOne(() => Account, (account) => account.accountBorders, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'account_id' })
   account: Account;
 

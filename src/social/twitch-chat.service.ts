@@ -1,76 +1,63 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Injectable,
   Logger,
   OnApplicationBootstrap,
   OnApplicationShutdown,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Client } from 'tmi.js';
+import { TwitchClientService } from './lib/twitch-client.service';
 
 @Injectable()
 export class TwitchChatService
   implements OnApplicationBootstrap, OnApplicationShutdown
 {
   private readonly logger = new Logger(TwitchChatService.name);
-  private client: Client;
 
   constructor(
     private readonly eventEmitter: EventEmitter2,
-    private readonly configService: ConfigService,
+    private readonly twitchClientService: TwitchClientService,
   ) {}
 
   async onApplicationBootstrap() {
-    const channels: string[] = this.configService
-      .get('TWITCH_CHANNELS')
-      .split(',');
-    this.client = new Client({
-      options: { debug: false },
-      identity: {
-        username: this.configService.get('TWITCH_USERNAME'),
-        password: `oauth:${this.configService.get('TWITCH_API_TOKEN')}`,
-      },
-      channels,
-    });
+    this.twitchClientService.create();
 
-    this.client.on('message', (channel, tags, message, self) => {
+    this.twitchClientService.on('message', (channel, tags, message, self) => {
       if (self) return;
 
-      this.logger.debug(`[${channel}] ${tags['display-name']}: ${message}`);
+      this.logger.debug('Message entry', { channel, tags, message, self });
 
       this.eventEmitter.emit('twitch.message', {
         channel,
+        username: tags['username'],
+        userId: tags['user-id'],
         message,
         tags,
       });
     });
 
-    this.client.on('connected', (addr, port) => {
+    this.twitchClientService.on('connected', (addr: string, port: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.twitchClientService.say(
+        `#gountzbot`,
+        '!message success-🤖 Bot inicializado.',
+      );
       this.logger.log(`TMI conectado a ${addr}:${port}`);
     });
 
-    this.client.on('disconnected', (reason) => {
+    this.twitchClientService.on('disconnected', (reason) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       this.logger.warn(`TMI desconectado: ${reason}`);
     });
 
     try {
-      await this.client.connect();
+      await this.twitchClientService.connect();
     } catch (err) {
       this.logger.error('Error conectando TMI', err);
     }
   }
 
   async onApplicationShutdown() {
-    if (this.client) {
-      await this.client.disconnect();
-      this.logger.log('TMI desconectado correctamente');
-    }
-  }
-
-  async say(channel: string, message: string) {
-    await this.client.say(channel, message);
+    await this.twitchClientService.disconnect();
+    this.logger.log('TMI desconectado correctamente');
   }
 }

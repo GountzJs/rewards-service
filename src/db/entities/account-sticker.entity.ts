@@ -27,7 +27,9 @@ export class AccountSticker {
   @Column({ name: 'account_id' })
   accountId: string;
 
-  @ManyToOne(() => Account, (account) => account.accountStickers)
+  @ManyToOne(() => Account, (account) => account.accountStickers, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'account_id' })
   account: Account;
 

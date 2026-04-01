@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { AccountBorder } from './account-border.entity';
 import { AccountEmbeecard } from './account-embeecard.entity';
+import { AccountLck2026 } from './account-lck2026.entity';
 import { AccountSticker } from './account-sticker.entity';
 import { AccountTicket } from './account-ticket.entity';
 import { Platform } from './platform.entity';
@@ -28,8 +29,8 @@ export class Account {
   @Column()
   ref: string;
 
-  @Column()
-  team: string;
+  @Column({ type: 'varchar', nullable: true })
+  team: string | null;
 
   @Column({ name: 'is_staff', default: false })
   isStaff: boolean;
@@ -55,4 +56,7 @@ export class Account {
 
   @OneToMany(() => AccountTicket, (accountTicket) => accountTicket.account)
   accountTickets: AccountTicket[];
+
+  @OneToMany(() => AccountLck2026, (accountLck2026) => accountLck2026.account)
+  accountLck2026: AccountLck2026[];
 }

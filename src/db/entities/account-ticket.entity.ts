@@ -21,13 +21,12 @@ export class AccountTicket {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @Column({ type: 'int', default: 1 })
-  quantity: number;
-
   @Column({ name: 'account_id' })
   accountId: string;
 
-  @ManyToOne(() => Account, (account) => account.accountTickets)
+  @ManyToOne(() => Account, (account) => account.accountTickets, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'account_id' })
   account: Account;
 
