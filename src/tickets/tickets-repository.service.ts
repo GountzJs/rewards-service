@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { AccountTicket } from '@/db/entities/account-ticket.entity';
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
@@ -21,6 +19,7 @@ export class TicketsRepositoryService {
       .getMany();
 
     return items.map((item) => ({
+      url: item.ticket.url,
       cover: item.ticket.cover,
       name: item.ticket.name,
       hourMx: item.ticket.hourMx,

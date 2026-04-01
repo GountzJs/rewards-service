@@ -67,6 +67,11 @@ export class ChatHandlerService {
       return;
     }
 
+    if (isCreatorOrMod && command.toLowerCase() === 'id-ticket') {
+      this.sendBotMessage(`🤖 ${this.rewardsState.idTicket}`);
+      return;
+    }
+
     if (isCreatorOrMod && command.toLowerCase() === 'agregar-ticket') {
       const idTicket = args;
       this.rewardsState.idTicket = idTicket;
