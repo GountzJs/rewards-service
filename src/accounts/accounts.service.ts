@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -23,11 +23,11 @@ export class AccountsService {
       const user = users.find((u) => u.id === rnk.ref);
 
       return {
-        id: rnk._id,
-        username: user?.display_name,
+        id: rnk.id,
+        username: user?.['display_name'],
         total: {
-          borders: rnk.totalBorders,
-          cards: rnk.totalCards,
+          borders: Number(rnk.totalBorders),
+          cards: Number(rnk.totalCards),
         },
       };
     });
@@ -64,7 +64,7 @@ export class AccountsService {
     return {
       id: account?.id || data.id,
       avatar: data.profile_image_url,
-      username: data.display_name,
+      username: data['display-name'],
       team: account?.team || null,
       total: {
         borders: totalBorders,

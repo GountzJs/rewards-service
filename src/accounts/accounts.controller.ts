@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   Controller,
   Get,
@@ -19,7 +18,7 @@ export class AccountsController {
     try {
       const ranking = await this.accountsService.getRanking();
 
-      return ranking;
+      return { ranking };
     } catch {
       throw new HttpException(
         'Generic Error',
