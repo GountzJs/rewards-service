@@ -141,7 +141,6 @@ export class ChatHandlerService {
     }
 
     if (isCreatorOrMod && command.toLowerCase() === 'lck-pack') {
-      console.log('LCK PACK entre!');
       const displayName = args
         .replace('@', '')
         .replace(/[^a-zA-Z0-9_-\s]/g, '')
