@@ -25,11 +25,11 @@ export class Ticket {
   @Column()
   name: string;
 
-  @Column({ name: 'hour_mx', nullable: true })
-  hourMx: string;
+  @Column({ type: 'varchar', name: 'hour_mx', nullable: true })
+  hourMx: string | null;
 
-  @Column({ name: 'hour_arg', nullable: true })
-  hourArg: string;
+  @Column({ type: 'varchar', name: 'hour_arg', nullable: true })
+  hourArg: string | null;
 
   @Column({ nullable: true })
   url: string;

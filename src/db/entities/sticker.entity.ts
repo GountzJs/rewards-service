@@ -32,6 +32,9 @@ export class Sticker {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  cover: string;
+
   @Column({ name: 'country_id' })
   countryId: string;
 

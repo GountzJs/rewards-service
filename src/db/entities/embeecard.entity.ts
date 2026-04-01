@@ -25,6 +25,9 @@ export class Embeecard {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  cover: string;
+
   @Column()
   description: string;
 

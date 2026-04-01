@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Sticker } from './sticker.entity';
+import { Team } from './team.entity';
 
 @Entity({ name: 'country' })
 export class Country {
@@ -22,9 +23,9 @@ export class Country {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  cover: string;
-
   @OneToMany(() => Sticker, (sticker) => sticker.country)
   stickers: Sticker[];
+
+  @OneToMany(() => Team, (team) => team.country)
+  teams: Team[];
 }

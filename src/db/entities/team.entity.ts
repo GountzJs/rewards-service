@@ -2,10 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Country } from './country.entity';
 import { Sticker } from './sticker.entity';
 
 @Entity({ name: 'team' })
@@ -27,4 +30,8 @@ export class Team {
 
   @OneToMany(() => Sticker, (sticker) => sticker.team)
   stickers: Sticker[];
+
+  @ManyToOne(() => Country, (country) => country.teams)
+  @JoinColumn({ name: 'country_id' })
+  country: Country;
 }
