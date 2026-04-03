@@ -1,0 +1,32 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+} from '@nestjs/common';
+import { Lck2026Service } from './lck2026.service';
+
+@Controller('/v1/lck2026')
+export class Lck2026Controller {
+  constructor(private readonly lck2026Service: Lck2026Service) {}
+
+  @Get('/users/:id')
+  @HttpCode(HttpStatus.OK)
+  async getTickets(@Param('id') id: string) {
+    try {
+      const cards = await this.lck2026Service.getCards(id);
+
+      return { tickets: cards };
+    } catch (error) {
+      const err = error as Error;
+
+      throw new HttpException(
+        { error: err.message },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+}

@@ -40,7 +40,7 @@ export class AccountLck2026Service {
     };
   }
 
-  async getRandom(accountId: string): Promise<string> {
+  async getRandom(): Promise<string> {
     const result = await this.lck2026Repository
       .createQueryBuilder('l')
       .select('l.id', 'lck2026_id')

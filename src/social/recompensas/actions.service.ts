@@ -111,7 +111,7 @@ export class ActionsService {
       const accountId = await this.getORCreateAccount(username);
 
       for (let i = 0; i < quantity; i++) {
-        const cardId = await this.accountLck2026Service.getRandom(accountId);
+        const cardId = await this.accountLck2026Service.getRandom();
         await this.accountLck2026Service.insertOrIncrement(accountId, cardId);
       }
 
