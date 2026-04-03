@@ -3,10 +3,12 @@ import { AccountLck2026 } from '@/db/entities/account-lck2026.entity';
 import { Module } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Lck2026RepositoryService } from './lck2026-repository.service';
+import { Lck2026Controller } from './lck2026.controller';
 import { Lck2026Service } from './lck2026.service';
 
 @Module({
   imports: [DBModule],
+  controllers: [Lck2026Controller],
   providers: [
     {
       provide: 'ACCOUNT_LCK2026_REPOSITORY',
