@@ -15,4 +15,16 @@ export class Lck2026Service {
       cover: item.lck2026.cover,
     }));
   }
+
+  async findLastCards(ref: string): Promise<any> {
+    const account = await this.lck2026Repository.findAccountByRef(ref);
+
+    if (!account) {
+      throw new Error('Account not found');
+    }
+
+    const cards = await this.lck2026Repository.findLastCards(account.id);
+
+    return cards;
+  }
 }

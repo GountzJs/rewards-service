@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ChatUserstate } from 'tmi.js';
 import { lolTeams, TLolTeams } from './core/consts';
@@ -19,12 +20,17 @@ export interface TwitchMessagePayload {
 export class ChatHandlerService {
   private readonly logger = new Logger(ChatHandlerService.name);
   private readonly rewardsState: RewardsState;
+  private channels: string[];
 
   constructor(
     private readonly actionsService: ActionsService,
     private readonly twitchClientService: TwitchClientService,
+    private readonly configService: ConfigService,
   ) {
     this.rewardsState = new RewardsState();
+    this.channels = (this.configService.get('TWITCH_CHANNELS') as string).split(
+      ',',
+    );
   }
 
   @OnEvent('twitch.message')
@@ -42,7 +48,9 @@ export class ChatHandlerService {
 
   private handleCommand(payload: TwitchMessagePayload) {
     const [command, args] = payload.message.slice(1).split(' ');
-    const isCreator = payload.channel === payload.username;
+    const isCreator = this.channels.some(
+      (username) => username === payload.tags['display-name'],
+    );
     const isMod = payload.tags['mod'];
     const isCreatorOrMod = isCreator || isMod;
 
