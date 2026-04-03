@@ -19,7 +19,7 @@ export class Lck2026Controller {
     try {
       const cards = await this.lck2026Service.getCards(id);
 
-      return { tickets: cards };
+      return { cards };
     } catch (error) {
       const err = error as Error;
 

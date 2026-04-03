@@ -6,6 +6,13 @@ export class Lck2026Service {
   constructor(private readonly lck2026Repository: Lck2026RepositoryService) {}
 
   async getCards(accountId: string): Promise<any> {
-    return this.lck2026Repository.getCards(accountId);
+    const items = await this.lck2026Repository.getCards(accountId);
+    return items.map((item) => ({
+      id: item.lck2026.id,
+      createdAt: item.lck2026.createdAt,
+      updatedAt: item.lck2026.updatedAt,
+      background: item.lck2026.background,
+      cover: item.lck2026.cover,
+    }));
   }
 }
