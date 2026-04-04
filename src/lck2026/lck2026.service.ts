@@ -25,6 +25,6 @@ export class Lck2026Service {
 
     const cards = await this.lck2026Repository.findLastCards(account.id);
 
-    return cards;
+    return cards.map((card) => card.lck2026);
   }
 }
