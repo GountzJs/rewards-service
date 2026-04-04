@@ -8,7 +8,6 @@ import {
   Param,
 } from '@nestjs/common';
 import { Lck2026Service } from './lck2026.service';
-import { GetLastCardsDTO } from './models/dtos/get-last-cards.dto';
 
 @Controller('/v1/lck2026')
 export class Lck2026Controller {
@@ -31,11 +30,11 @@ export class Lck2026Controller {
     }
   }
 
-  @Get('/:ref/last')
+  @Get('/:id/last')
   @HttpCode(HttpStatus.OK)
-  async lastCards(@Param() { ref }: GetLastCardsDTO) {
+  async lastCards(@Param() { id }: any) {
     try {
-      const cards = await this.lck2026Service.findLastCards(ref);
+      const cards = await this.lck2026Service.findLastCards(id);
       return { cards };
     } catch {
       throw new HttpException(

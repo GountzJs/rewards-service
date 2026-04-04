@@ -16,14 +16,8 @@ export class Lck2026Service {
     }));
   }
 
-  async findLastCards(ref: string): Promise<any> {
-    const account = await this.lck2026Repository.findAccountByRef(ref);
-
-    if (!account) {
-      throw new Error('Account not found');
-    }
-
-    const cards = await this.lck2026Repository.findLastCards(account.id);
+  async findLastCards(id: string): Promise<any> {
+    const cards = await this.lck2026Repository.findLastCards(id);
 
     return cards.map((card) => card.lck2026);
   }
