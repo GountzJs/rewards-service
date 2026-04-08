@@ -25,6 +25,9 @@ export class Lck2026 {
   @Column()
   cover: string;
 
+  @Column({ type: 'varchar', default: '00' })
+  numeration: string;
+
   @OneToMany(() => AccountLck2026, (accountLck2026) => accountLck2026.lck2026)
   accountLck2026: AccountLck2026[];
 }
