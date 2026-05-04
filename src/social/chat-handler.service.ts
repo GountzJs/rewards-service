@@ -185,7 +185,7 @@ export class ChatHandlerService {
       this.sendStreamerMessage(
         `🤖 Tu perfil @${
           displayName
-        }: https://coleccionables.embeejayz.com/usuarios/${displayName.toLowerCase()}`,
+        }: https://coleccionables.embeejayz.com/perfil/${displayName.toLowerCase()}`,
       );
       return;
     }
@@ -193,7 +193,7 @@ export class ChatHandlerService {
     if (isCreatorOrMod && command === 'perfil') {
       const username = args.trim().replace('@', '');
       this.sendStreamerMessage(
-        `🤖 Tu perfil @${username}: https://coleccionables.embeejayz.com/usuarios/${username.toLowerCase()}`,
+        `🤖 Tu perfil @${username}: https://coleccionables.embeejayz.com/perfil/${username.toLowerCase()}`,
       );
       return;
     }
